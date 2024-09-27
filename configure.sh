@@ -1,17 +1,22 @@
 #!/bin/bash
-git clone --depth 1 https://github.com/bigbugcc/OpenwrtApp package/otherapp/OpenwrtApp
-git clone --depth 1 https://github.com/destan19/OpenAppFilter package/otherapp/OpenAppFilter
-git clone --depth 1 https://github.com/zzsj0928/luci-app-pushbot package/otherapp/luci-app-pushbot
+# Modify default system settings
 
-# Theme
-# luci-theme-neobird
-git clone --depth 1 https://github.com/thinktip/luci-theme-neobird.git package/otherapp/luci-theme-neobird
+# 修改默认IP为192.168.10.1
+sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate 
 
-# Mentohust
-git clone --depth 1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk.git package/otherapp/mentohust
+# Hello World
+echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 
-# UnblockNeteaseMusic
-git clone --depth 1 -b master  https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git package/unblockneteasemusic
+# luci-theme-infinityfreedom
+echo 'src-git infinityfreedom https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom.git' >>feeds.conf.default
 
-# OpenClash
-git clone --depth 1 https://github.com/vernesong/OpenClash.git package/luci-app-openclash
+# passwall
+echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> feeds.conf.default
+echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git;main" >> feeds.conf.default
+
+# iStore
+echo "src-git istore https://github.com/linkease/istore;main" >> feeds.conf.default
+
+# 替换默认主题
+rm -rf package/lean/luci-theme-argon 
+git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git  package/lean/luci-theme-argon
